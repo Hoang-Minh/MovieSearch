@@ -72,19 +72,15 @@ $(document).ready(function() {
     })        
   }); 
 
-  function addMovie(resp){
-      
+  function addMovie(resp){      
       var title = $("<h2><strong>" + resp.Title + "</strong></h2>");
       var year = $("<div><strong>Year: " + resp.Year + "</strong></h2>");
-      var rated = $("<div><strong>Rated: " + resp.Rated + "</strong></h2>");
-                
-      var poster = $("<img>").attr("src", resp.Poster);
-      
-      var plot = $("<p>" + resp.Plot + "</p>");
-
-      //var plot = $("<p>").text(resp.Plot);
+      var rated = $("<div><strong>Rated: " + resp.Rated + "</strong></h2>");                
+      var poster = $("<img>").attr("src", resp.Poster);      
+      var plot = $("<p>" + resp.Plot + "</p>");      
       var button = $("<button class='btn btn-primary btn-lg button-movie'>" + resp.Title + "</button>");
-      var divider = $("<hr class='my-4' />");          
+      var divider = $("<hr class='my-4' />");
+
       $("#movie-view").append(title, year, rated, poster, plot, divider);
       $(".moviebutton").append(button);
     }
