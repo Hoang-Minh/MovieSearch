@@ -33,127 +33,80 @@
   </style>
 </head>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+  $("#find-movie").on("click", function(event) {
+    
+    event.preventDefault();
+    // Here we grab the text from the input box
+    var movie = $("#movie-input").val();
+
+    // Here we construct our URL
+    var queryURL = "https://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
+
+    // Write code between the dashes below to hit the queryURL with $ajax, then take the response data
+    // and display it in the div with an id of movie-view
+
+    // YOUR CODE GOES IN THESE DASHES. DO NOT MANUALLY EDIT THE HTML ABOVE
+    $.ajax({
+        url : queryURL,
+        method : 'GET'
+      }
+    ).then(function(resp) {
+      
+      console.log(resp);
+      
+      //var jsonStr = JSON.stringify(resp);
+      //$("#movie-view").append(jsonStr);
+      //var title = resp.Title;
+
+      addMovie(resp);
+      $("#movie-input").val(""); // clear the text in search box
+
+    })
+    .catch(function(err){
+      console.error(err)
+    })        
+  }); 
+
+  function addMovie(resp){
+      
+      var title = $("<h2><strong>" + resp.Title + "</strong></h2>");
+      var year = $("<div><strong>Year: " + resp.Year + "</strong></h2>");
+      var rated = $("<div><strong>Rated: " + resp.Rated + "</strong></h2>");
+                
+      var poster = $("<img>").attr("src", resp.Poster);
+      
+      var plot = $("<p>" + resp.Plot + "</p>");
+
+      //var plot = $("<p>").text(resp.Plot);
+      var button = $("<button class='btn btn-primary btn-lg button-movie'>" + resp.Title + "</button>");
+      var divider = $("<hr class='my-4' />");          
+      $("#movie-view").append(title, year, rated, poster, plot, divider);
+      $(".moviebutton").append(button);
+    }
+}) 
+</script>
+
 <body>
   <div class="container">
     <div class="jumbotron">
       <h1 class="display-3 text-center">Movie Search</h1>
-      <p class="lead text-center moviebutton">
-        
-      </p>
-      <hr class="my-4">    
-    <form>
-      <div class="form-group">
-        <label for="exampleInputEmail1">Movie Title</label>
-        <input type="email" class="form-control" id="movie-input" aria-describedby="emailHelp" placeholder="Enter title">          
-      </div>        
-      <button type="submit" class="btn btn-primary" id="find-movie">Search</button>
-    </form>
-    <div class="text-center" id="movie-view">
+      <p class="lead text-center moviebutton"></p>
+      <hr class="my-4">
+      <form>
+        <div class="form-group">
+          <label for="movie-input">Movie Title</label>
+          <input id="movie-input" type="text" class="form-control" placeholder="Enter title" required>          
+        </div>
+        <button type="submit" class="btn btn-primary" id="find-movie">Search</button>
+      </form>
 
+      <div class="text-center" id="movie-view"></div>
     </div>
   </div>
-
-
-
-  </div>
-  
-
-
-  <div class="container">
-    
-    
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
-      // This .on("click") function will trigger the AJAX Call
-      $("#find-movie").on("click", function(event) {
-        if($("#movie-input").val() === '') {
-          // Preventing the submit button from trying to submit the form
-          // We're optionally using a form so the user may hit Enter to search instead of clicking the button
-          event.preventDefault();
-        }
-        else {
-          // Here we grab the text from the input box
-          var movie = $("#movie-input").val();
-
-          // Here we construct our URL
-          var queryURL = "https://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
-
-          // Write code between the dashes below to hit the queryURL with $ajax, then take the response data
-          // and display it in the div with an id of movie-view
-
-          // YOUR CODE GOES IN THESE DASHES. DO NOT MANUALLY EDIT THE HTML ABOVE
-          $.ajax({
-              url : queryURL,
-              method : 'GET'
-            }
-          ).then(function(resp) {
-            
-            console.log(resp);
-            
-            //var jsonStr = JSON.stringify(resp);
-            //$("#movie-view").append(jsonStr);
-            //var title = resp.Title;
-
-            addMovie(resp);
-            $("#movie-input").val(""); // clear the text in search box
-
-          })
-          .catch(function(err){
-            console.error(err)
-          })
-        }        
-
-        // CODE GOES HERE
-           
-
-        
-        // =================================================================
-      });
-
-      // Initial array of movies
-      // var movies = ["The Matrix", "The Notebook", "Mr. Nobody", "The Lion King"];
-      var movies = [];
-
-      // Function for displaying movie data
-      function renderButtons() {
-
-        // YOUR CODE GOES HERE
-        
-        for(var i = 0; i < movies.length; i++) {
-          // var button = $("<button>").text(movies[i]);
-          // $("#button-movie").append(button);
-          //var button = $("<button class='moviesBtn' data-name='"+movies[i]+"'>" + movies[i] + "</button>");
-          //<a class="btn btn-primary btn-lg button-movie" href="#" role="button"></a>
-          //var button = $("<a class='btn btn-primary btn-lg button-movie' role='button'>" + movies[i] + "</a>");
-          var button = $("<button class='btn btn-primary btn-lg button-movie'>" + movies[i] + "</button>");
-          $(".moviebutton").append(button);
-        }
-
-      }
-
-      function addMovie(resp){
-          // var title = $("<h2>").text(resp.Title);
-          var title = $("<h2><strong>" + resp.Title + "</strong></h2>");
-          var year = $("<div><strong>Year: " + resp.Year + "</strong></h2>");
-          var rated = $("<div><strong>Rated: " + resp.Rated + "</strong></h2>");
-          //var year = $("<div>").text(resp.Year);
-          //var rated = $("<div>").text(resp.Rated);
-          
-          var poster = $("<img>").attr("src", resp.Poster);
-          
-          var plot = $("<p>" + resp.Plot + "</p>");
-
-          //var plot = $("<p>").text(resp.Plot);
-          var button = $("<button class='btn btn-primary btn-lg button-movie'>" + resp.Title + "</button>");
-          var divider = $("<hr class='my-4' />");          
-          $("#movie-view").append(title, year, rated, poster, plot, divider);
-          $(".moviebutton").append(button);
-        }
-      
-      renderButtons();
-    </script>
-  </div>
 </body>
-
 </html>
