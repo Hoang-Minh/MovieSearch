@@ -27,10 +27,12 @@ $(document).ready(function() {
                 var poster = $("<img>").attr("src", resp.Poster);      
                 var plot = $("<p>" + resp.Plot + "</p>");      
                 var button = $("<button class='btn btn-primary btn-lg button-movie'>" + resp.Title + "</button>");
-                var divider = $("<hr class='my-4' />");
+                // var divider = $("<hr class='my-4'>");
+                var divider = $("<hr>");
+                divider.attr("class", "my-4");
                 $("#movie-view").append(title, year, rated, poster, plot, divider);
                 $(".moviebutton").append(button);
-              }
+            }
         }
     });
 })
